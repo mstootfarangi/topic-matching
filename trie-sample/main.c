@@ -157,16 +157,17 @@ void trie_print(Trie *trie, int level)
 int main()
 {
     Trie *trie = NULL;
-    char *words;
+    char **words;
     words = tokenize("foo.bar.baz");
-    trie_add(&trie, "foo.bar.foo");
-    trie_add(&trie, "bar.bar.baz");
-    int v=0;
-    int a = search_trie(v, &trie, "foo.bar.foo");
-    if(a)
-        printf("fooound\n");
-    else
-        printf("not found :(\n");
+    printf("size of words is %s \n",words[1]);
+    //trie_add(&trie, "foo.bar.foo");
+    //trie_add(&trie, "bar.bar.baz");
+    //int v=0;
+    //int a = search_trie(v, &trie, "foo.bar.foo");
+    //if(a)
+    //    printf("fooound\n");
+    //else
+     //   printf("not found :(\n");
     /*trie_add(&trie, "foo.bar.foo.*");
      trie_add(&trie, "foo.baz.*");
      trie_add(&trie, "foo.*.bar");
@@ -176,9 +177,9 @@ int main()
      trie_add(&trie, "foo.foo");
      trie_add(&trie, "bar");*/
     
-    trie_print(trie, 0);
+    //trie_print(trie, 0);
     
-    trie_delete(trie);
+    //trie_delete(trie);
     
     return 0;
 }
