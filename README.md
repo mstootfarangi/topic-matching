@@ -6,8 +6,9 @@ this code try to create a trie from strings then find matched string for given s
 # data structure : 
 each node is a struct and will have a key and a pointer to child and next node
 
-child is next word of existing node ie in foo.bar, bar is a child for foo
-next is other possible match for matching ie in foo.baz, baz is next node for bar which already exist in trie
+child is next word of existing node, ie in `foo.bar`, `bar` is a child for `foo`.
+
+next is other possible choice for matching, ie in `foo.baz`, `baz` is next node for `bar` which already exist in trie
 
 
 # add : 
