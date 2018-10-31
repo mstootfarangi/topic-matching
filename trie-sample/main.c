@@ -93,13 +93,12 @@ char** tokenize (const char* str)
     return words;
 }
 
-int search_trie(int v,int i,Trie **trie, char** words)
+int search_trie(int v, int i, Trie **trie, char** words)
 {
     // return 0 if Trie is empty
     if (*trie == NULL)
         return 0;
-    int words_length = (int)*words[0];
-    if(i == words_length){
+    if(i == (int)*words[0]){
         if((*trie)->end){
             v++;
         }
@@ -110,7 +109,7 @@ int search_trie(int v,int i,Trie **trie, char** words)
            if (strcmp((*trie)->key, word) == 0){
                if((*trie)->child != NULL)
                    trie = &(*trie)->child;
-               v = search_trie(v, i+1,trie, words);
+               v = search_trie(v, i++, trie, words);
            }
         }
     }
@@ -171,12 +170,13 @@ int main()
 {
     Trie *trie = NULL;
     char **words;
-    words = tokenize("foo.bar.foo");
-    printf("size of words is %d \n", (int)*words[0]);
+
     trie_add(&trie, "foo.bar.foo");
-    //trie_add(&trie, "bar.bar.baz");
+    trie_add(&trie, "bar.bar.baz");
     int v=0;
-    int a = search_trie(v, 1, &trie, words);
+    words = tokenize("foo.bar.foo");
+    //printf("size of words is %d \n", (int)*words[0]);
+    int a = search_trie(v, 0, &trie, words);
     if(a)
        printf("fooound\n");
     else
