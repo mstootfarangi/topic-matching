@@ -77,31 +77,44 @@ char** tokenize (const char* str)
     strcpy(buf, str);
     tok = strtok (buf, ".");
     char **words = NULL;
+    words = realloc (words, sizeof (char*) * n_spaces);
     while(tok){
        words = realloc (words, sizeof (char*) * ++n_spaces);
         if (words == NULL)
             exit (-1);
-        words[n_spaces-1] = tok;
+        words[n_spaces] = tok;
         tok = strtok (NULL, ".");
     }
-    words = realloc (words, sizeof (char*) * (n_spaces+1));
+    words = realloc (words, sizeof (char*) * (++n_spaces));
     words[n_spaces] = 0;
+    --n_spaces;
+    words[0] = (char *)&n_spaces;
+    //printf("n_spaces %d \n",(int)*words[0]);
     return words;
 }
 
-int search_trie(int v,Trie **trie, const char* str)
+int search_trie(int v,int i,Trie **trie, char** words)
 {
     // return 0 if Trie is empty
     if (*trie == NULL)
         return 0;
-    char buf[strlen(str) + 1];
-    char *tok;
-    strcpy(buf, str);
-    char *rest = buf;
-    //tok = strtok(buf, ".");
-    tok = strtok_r(rest, ".", &rest);
-    //printf("size of string %lu and value is %s\n",sizeof(tok),tok);
-    while (tok)
+    int words_length = (int)*words[0];
+    if(i == words_length){
+        if((*trie)->end){
+            v++;
+        }
+    }
+    else{
+        char *word = words[i];
+        if(1){
+           if (strcmp((*trie)->key, word) == 0){
+               if((*trie)->child != NULL)
+                   trie = &(*trie)->child;
+               v = search_trie(v, i+1,trie, words);
+           }
+        }
+    }
+    /*while (tok)
     {
         while(*trie){
             if (strcmp((*trie)->key, tok) == 0){
@@ -126,7 +139,7 @@ int search_trie(int v,Trie **trie, const char* str)
         //if(*(&(*trie)->end))
 //            return 1;
        
-    }
+    }*/
     return v;
     // if current node is a leaf and we have reached the
     // end of the string, return 1
@@ -158,16 +171,16 @@ int main()
 {
     Trie *trie = NULL;
     char **words;
-    words = tokenize("foo.bar.baz");
-    printf("size of words is %s \n",words[1]);
-    //trie_add(&trie, "foo.bar.foo");
+    words = tokenize("foo.bar.foo");
+    printf("size of words is %d \n", (int)*words[0]);
+    trie_add(&trie, "foo.bar.foo");
     //trie_add(&trie, "bar.bar.baz");
-    //int v=0;
-    //int a = search_trie(v, &trie, "foo.bar.foo");
-    //if(a)
-    //    printf("fooound\n");
-    //else
-     //   printf("not found :(\n");
+    int v=0;
+    int a = search_trie(v, 1, &trie, words);
+    if(a)
+       printf("fooound\n");
+    else
+        printf("not found :(\n");
     /*trie_add(&trie, "foo.bar.foo.*");
      trie_add(&trie, "foo.baz.*");
      trie_add(&trie, "foo.*.bar");
