@@ -1,6 +1,6 @@
-# topic-matching
+## topic-matching
 
-## this code try to create a trie from string then find matched string for given sample
+this code try to create a trie from strings then find matched string for given sample
 
 
 # data structure : 
